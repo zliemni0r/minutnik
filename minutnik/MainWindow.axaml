@@ -2,8 +2,190 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
+        Width="480"
+        Height="540"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
         x:Class="minutnik.MainWindow"
-        Title="minutnik">
-    Welcome to Avalonia!
+        Title="Minutnik">
+
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Color="#0F172A" Offset="0.0" />
+            <GradientStop Color="#1E1B4B" Offset="1.0" />
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid Margin="24">
+        <StackPanel Spacing="20" VerticalAlignment="Center">
+            <!-- App Header & Mode Status Badge -->
+            <StackPanel Spacing="10" HorizontalAlignment="Center">
+                <TextBlock Text="MINUTNIK"
+                           FontSize="13"
+                           FontWeight="Bold"
+                           Foreground="#94A3B8"
+                           LetterSpacing="2"
+                           HorizontalAlignment="Center" />
+
+                <Border x:Name="StatusBadgeBorder"
+                        Background="#1E3A8A"
+                        BorderBrush="#3B82F6"
+                        BorderThickness="1"
+                        CornerRadius="16"
+                        Padding="18,6"
+                        HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <Ellipse x:Name="StatusDot" Width="8" Height="8" Fill="#60A5FA" />
+                        <TextBlock x:Name="StatusTextBlock"
+                                   Text="TRYB PRACY"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   Foreground="#93C5FD"
+                                   LetterSpacing="1" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Main Card: Remaining Time (mm:ss) and Cycles Counter Obok -->
+            <Border Background="#1E293B"
+                    BorderBrush="#334155"
+                    BorderThickness="1"
+                    CornerRadius="16"
+                    Padding="20,24">
+                <StackPanel Spacing="18">
+                    <Grid ColumnDefinitions="*,Auto,*">
+                        <!-- Time Display (mm:ss) -->
+                        <StackPanel Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="POZOSTAŁY CZAS"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#94A3B8"
+                                       HorizontalAlignment="Center"
+                                       LetterSpacing="1"
+                                       Margin="0,0,0,6" />
+                            <TextBlock x:Name="TimerTextBlock"
+                                       Text="25:00"
+                                       FontSize="48"
+                                       FontWeight="Bold"
+                                       Foreground="#FFFFFF"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- Vertical Divider -->
+                        <Border Grid.Column="1"
+                                Width="1"
+                                Background="#334155"
+                                Height="64"
+                                VerticalAlignment="Center"
+                                Margin="12,0" />
+
+                        <!-- Completed Cycles Counter (Obok) -->
+                        <StackPanel Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="SKOŃCZONE CYKLE"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#94A3B8"
+                                       HorizontalAlignment="Center"
+                                       LetterSpacing="1"
+                                       Margin="0,0,0,6" />
+                            <TextBlock x:Name="CycleCountTextBlock"
+                                       Text="0"
+                                       FontSize="48"
+                                       FontWeight="Bold"
+                                       Foreground="#10B981"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Phase Progress Bar -->
+                    <ProgressBar x:Name="PhaseProgressBar"
+                                 Height="6"
+                                 CornerRadius="3"
+                                 Value="0"
+                                 Maximum="100"
+                                 Background="#0F172A"
+                                 Foreground="#3B82F6" />
+                </StackPanel>
+            </Border>
+
+            <!-- Settings Card: Work & Break Durations -->
+            <Border Background="#1E293B"
+                    BorderBrush="#334155"
+                    BorderThickness="1"
+                    CornerRadius="16"
+                    Padding="20,16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="USTAWIENIA CZASU (MINUTY)"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Foreground="#94A3B8"
+                               LetterSpacing="1" />
+
+                    <Grid ColumnDefinitions="*,16,*">
+                        <StackPanel Grid.Column="0" Spacing="6">
+                            <TextBlock Text="Czas pracy:"
+                                       FontSize="12"
+                                       Foreground="#E2E8F0" />
+                            <NumericUpDown x:Name="WorkDurationNumericUpDown"
+                                           Value="25"
+                                           Minimum="1"
+                                           Maximum="180"
+                                           Increment="1"
+                                           FormatString="0"
+                                           HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Spacing="6">
+                            <TextBlock Text="Czas przerwy:"
+                                       FontSize="12"
+                                       Foreground="#E2E8F0" />
+                            <NumericUpDown x:Name="BreakDurationNumericUpDown"
+                                           Value="5"
+                                           Minimum="1"
+                                           Maximum="60"
+                                           Increment="1"
+                                           FormatString="0"
+                                           HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Buttons: Start/Pauza and Reset -->
+            <Grid ColumnDefinitions="*,16,*">
+                <Button x:Name="StartPauseButton"
+                        Grid.Column="0"
+                        Content="Start"
+                        Height="48"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="#FFFFFF"
+                        Background="#2563EB"
+                        CornerRadius="12"
+                        Cursor="Hand" />
+
+                <Button x:Name="ResetButton"
+                        Grid.Column="2"
+                        Content="Reset"
+                        Height="48"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Foreground="#F8FAFC"
+                        Background="#334155"
+                        CornerRadius="12"
+                        Cursor="Hand" />
+            </Grid>
+        </StackPanel>
+    </Grid>
 </Window>
